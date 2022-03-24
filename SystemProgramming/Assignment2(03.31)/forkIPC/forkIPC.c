@@ -8,113 +8,126 @@
 #include <ctype.h>
 
 int main(void){
-	int fd[3];
+	//pipes
+	int pipe1[2];
+	int pipe2[2];
+	
+	//process about files
 	int input, output;
 	int num;
+	
+	//parent
 	char buf[10];
 	char checkedBuf[10];
 	
-	char bufCap[10];
+	//child1
 	char bufChild1[10];
 	char bufLow[10];
 	
+	//child2
 	char bufChild2[10];
 	
-	pipe(fd);
-	
+	pipe(pipe2);
+	pipe(pipe1);
+		
 	//parent
-	if( fork() != 0){		
-		
-		pipe(fd);
-		
-		//parent
-		if( fork() != 0){
-			input = open("input",0);
-			close(fd[0]);
-			
-			//extract lower 10bytes char from input and put them to pipe1
-			int count = 0;
-			while(( num = read (input, buf, 10)) != 0){
-				for(int i = 0; i < 10; i++){
-					if( islower(buf[i]) != 0){
-						count++;
-						checkedBuf[count] = buf[i];
-					}
-					
-					if( count == 10){
-						write(fd[1], checkedBuf, count);
-						count = 0;
-					}
-				}
-				
-				if( count > 0){
-					write(fd[1], checkedBuf, count);
-				}
-				//test
-				printf("parent");
-			}
-			//test
-			printf("parent");
-			close(input);
-			close(fd[1]);
-			wait(NULL);
-			wait(NULL);
-		}
-		
-		//child 1
-		else{
-			close(fd[0]);
-			input = open("input", 0);
-			
-			//extract capital letters from "input" and put them to pipe2
-			int countCap = 0;
-			while((num = read(input, bufChild1, 10)) != 0){
-				for(int i = 0; i < 10; i++){
-					if( islower(bufChild1[i]) != 0){
-						countCap++;
-						bufCap[countCap] = buf[i];
-					}
-					
-					if( countCap == 10){
-						write(fd[2], bufCap, countCap);
-						countCap = 0;
-					}
-				}
-				
-				if( countCap > 0){
-					write(fd[2], bufCap, countCap);
-				}
-				
-				//test
-				printf("child1");
-			}
-			
-			//get lower letters from pipe1 and put them to pipe2
-			while((num = read(fd[1], bufLow, 10)) != 0){
-				write(fd[2], bufLow, num);
-			}
-			
-			//test
-			printf("child1");
-			
-			close(input);
-			close(fd[2]);
-			exit(1);
-		}
-	}
-	//child2
-	else{
-		close(fd[1]);
-		output = open("output", 0);
-		while((num = read(fd[2], bufChild2, 10)) != 0){
-			write(output, bufChild2, num);
-		}
+	if( fork() != 0){
+		input = open("input.dat",0);
+		close(pipe1[0]);
 		
 		//test
-		printf("child1");
+		//printf("parent\n");
+		
+		//extract lower 10bytes char from input and put them to pipe1
+		int count = 0;
+		while(( num = read (input, buf, 10)) != 0){
+			
+			//prevent interrupt
+			close(pipe1[0]);
+			checkedBuf[10] = '\0';
+			
+			for(int i = 0; i < num; i++){
+				if( islower(buf[i]) != 0){
+					checkedBuf[count] = buf[i];
+					count++;
+				}
+				
+				if( count == num-1){
+					write(pipe1[1], checkedBuf, count);
+					count = 0;
+					
+				}
+				
+				//test -> clear
+				//printf("%c[%d]", buf[i], i);
+				
+			}
+			
+
+		}
+		//put letters remained in checkedBuf to pipe1[1]
+		if(num != 10){
+			write(pipe1[1], checkedBuf, count);
+		}
+		
+		
+		close(input);
+		close(pipe1[1]);
+		wait(NULL);
+		wait(NULL);
+	}
+	
+	//child 1
+	else{
+		close(pipe1[1]);			
+		
+		//test
+		//printf("\n\nchild1\n");
+		
+		//conver lower letter to capital letter
+		while((num = read(pipe1[0], bufLow, 10)) != 0){
+			
+			//prevent interrupt
+			close(pipe1[1]);	
+		
+			//convert to Capital letter
+			for(int i = 0; i < num; i++){
+				
+				bufLow[i] =+ toupper(bufLow[i]);
+				//test -> clear
+				//printf("%c[%d]", bufLow[i],i);
+			}
+			
+			write(pipe2[1], bufLow, num);
+		}
+		
+		close(pipe2[1]);
+		exit(1); //terminate child1
+	}
+
+	//child2
+	if(fork() == 0){
+		close(pipe2[1]);
+
+		//test
+		//printf("\n\nchild2\n");
+		
+		output = creat("output.dat", 0666);
+		while((num = read(pipe2[0], bufChild2, 10)) != 0){
+
+		
+			write(output, bufChild2, num);
+			
+			//test
+			//for(int i = 0; i < num; i++){
+			//	printf("%c", bufChild2[i]);
+			//}
+			
+		}
+		
 			
 		close(output);
-		close(fd[2]);
-		exit(2);
+		close(pipe2[0]);
+		exit(2);//terminate child2
 	}
 }
