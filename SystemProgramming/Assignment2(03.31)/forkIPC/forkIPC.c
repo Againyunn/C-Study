@@ -41,7 +41,7 @@ int main(void){
 		while(( num = read (input, buf, 10)) != 0){
 			
 			//prevent interrupt
-			close(pipe1[0]);
+			//close(pipe1[0]);
 			checkedBuf[10] = '\0';
 			
 			for(int i = 0; i < num; i++){
@@ -79,7 +79,7 @@ int main(void){
 		while((num = read(pipe1[0], bufLow, 10)) != 0){
 			
 			//prevent interrupt
-			close(pipe1[1]);	
+			//close(pipe1[1]);	
 		
 			//convert to Capital letter
 			for(int i = 0; i < num; i++){
