@@ -32,7 +32,7 @@ int main(void){
 		
 	//parent
 	if( fork() != 0){
-		input = open("input.dat",0);
+		input = open("input",0);
 		close(pipe1[0]);
 		
 		//test
@@ -112,7 +112,7 @@ int main(void){
 		//test
 		//printf("\n\nchild2\n");
 		
-		output = creat("output.dat", 0666);
+		output = creat("output", 0666);
 		while((num = read(pipe2[0], bufChild2, 10)) != 0){
 
 		
