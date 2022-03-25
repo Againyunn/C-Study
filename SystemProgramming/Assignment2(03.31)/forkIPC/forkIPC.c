@@ -8,11 +8,11 @@
 #include <ctype.h>
 
 int main(void){
-	//pipes
+	//pipe 관련
 	int pipe1[2];
 	int pipe2[2];
 	
-	//process about files
+	//file 읽고 쓰기 관련
 	int input, output;
 	int num;
 	
@@ -27,6 +27,7 @@ int main(void){
 	//child2
 	char bufChild2[10];
 	
+	//2개의 파이프 생성
 	pipe(pipe2);
 	pipe(pipe1);
 		
@@ -34,9 +35,6 @@ int main(void){
 	if( fork() != 0){
 		input = open("input",0);
 		close(pipe1[0]);
-		
-		//test
-		//printf("parent\n");
 		
 		//extract lower 10bytes char from input and put them to pipe1
 		int count = 0;
@@ -56,23 +54,19 @@ int main(void){
 					write(pipe1[1], checkedBuf, count);
 					count = 0;
 					
-				}
-				
-				//test -> clear
-				//printf("%c[%d]", buf[i], i);
-				
+				}	
 			}
-			
-
 		}
-		//put letters remained in checkedBuf to pipe1[1]
+
+		//put letters remained in checkedBuf to pipe1[1] : 처리되지 못하고 checkedBuf에 남은 값이 있다면 pipe1[1]에 저장
 		if(num != 10){
 			write(pipe1[1], checkedBuf, count);
 		}
 		
-		
 		close(input);
 		close(pipe1[1]);
+		
+		//childs 종료까지 대기
 		wait(NULL);
 		wait(NULL);
 	}
@@ -80,9 +74,6 @@ int main(void){
 	//child 1
 	else{
 		close(pipe1[1]);			
-		
-		//test
-		//printf("\n\nchild1\n");
 		
 		//conver lower letter to capital letter
 		while((num = read(pipe1[0], bufLow, 10)) != 0){
@@ -92,10 +83,7 @@ int main(void){
 		
 			//convert to Capital letter
 			for(int i = 0; i < num; i++){
-				
-				bufLow[i] =+ toupper(bufLow[i]);
-				//test -> clear
-				//printf("%c[%d]", bufLow[i],i);
+				bufLow[i] = toupper(bufLow[i]);
 			}
 			
 			write(pipe2[1], bufLow, num);
@@ -108,24 +96,12 @@ int main(void){
 	//child2
 	if(fork() == 0){
 		close(pipe2[1]);
-
-		//test
-		//printf("\n\nchild2\n");
 		
 		output = creat("output", 0666);
 		while((num = read(pipe2[0], bufChild2, 10)) != 0){
-
-		
 			write(output, bufChild2, num);
-			
-			//test
-			//for(int i = 0; i < num; i++){
-			//	printf("%c", bufChild2[i]);
-			//}
-			
 		}
 		
-			
 		close(output);
 		close(pipe2[0]);
 		exit(2);//terminate child2
