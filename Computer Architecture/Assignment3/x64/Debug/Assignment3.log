@@ -1,0 +1,25 @@
+﻿  assignment3.c
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(66,23): warning C4047: '함수': 'char *'의 간접 참조 수준이 'unsigned char'과(와) 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(66,13): warning C4024: 'strcat': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(66,36): warning C4047: '함수': 'const char *'의 간접 참조 수준이 'char'과(와) 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(66,29): warning C4024: 'strcat': 형식 및 실제 매개 변수 2의 형식이 서로 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(87,37): warning C4047: '함수': 'char *'의 간접 참조 수준이 'unsigned char'과(와) 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(87,27): warning C4024: 'strtok': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(90,17): warning C4047: '함수': 'char'의 간접 참조 수준이 'char *'과(와) 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(90,13): warning C4024: 'convert': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(105,37): warning C4047: '함수': 'char *'의 간접 참조 수준이 'unsigned char'과(와) 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(105,27): warning C4024: 'strtok': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(108,17): warning C4047: '함수': 'char'의 간접 참조 수준이 'char *'과(와) 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(108,13): warning C4024: 'convert': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(81,9): warning C4101: 'c' :참조되지 않은 지역 변수입니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(99,9): warning C4101: 'c' :참조되지 않은 지역 변수입니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(145,15): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(146,31): warning C4047: '함수': 'const char *'의 간접 참조 수준이 'unsigned int'과(와) 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(146,19): warning C4024: 'strtol': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(151,15): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(152,31): warning C4047: '함수': 'const char *'의 간접 참조 수준이 'unsigned int'과(와) 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(152,19): warning C4024: 'strtol': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(158,16): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(171,36): warning C4047: '<': 'int'의 간접 참조 수준이 'char [12]'과(와) 다릅니다.
+C:\github\C-Study\Computer Architecture\Assignment3\assignment3.c(120): warning C4716: 'memoryRead': 값을 반환해야 합니다.
+  Assignment3.vcxproj -> C:\github\C-Study\Computer Architecture\Assignment3\x64\Debug\Assignment3.exe
