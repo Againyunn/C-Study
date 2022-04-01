@@ -21,9 +21,6 @@ int main(void){
 		//setsid();
 		
 		while(1){
-		
-			if( i == 10021)
-				break;
 				
 			printf("c(%d)\n", i);
 			i++;
@@ -38,7 +35,7 @@ int main(void){
 		printf("Parent: Child pid = %d\n", pid);
 		
 		//Parent process sleeps for 30sec
-		sleep(30);
+		sleep(20);
 		
 		printf("Parent : exit\n");
 		

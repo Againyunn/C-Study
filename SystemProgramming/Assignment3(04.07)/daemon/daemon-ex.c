@@ -31,7 +31,7 @@ int main(void){
 		printf("Parent: pid = %d\n", getpid() );
 		printf("Parent: Child pid = %d\n", pid);
 		
-		sleep(1);
+		sleep(10);
 		
 		printf("Parent : exit\n");
 		

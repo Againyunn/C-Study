@@ -7,6 +7,7 @@ int main(void){
 	
 	pid_t pid;
 	int i = 10000;
+	int check = 0;
 	
 	if((pid = fork()) < 0){
 		perror("fork error");
@@ -20,18 +21,21 @@ int main(void){
 		////create new session
 		//setsid();
 		
-		while(1){
+		while(check < 5){
 			printf("c(%d)\n", i);
 			i++;
+			check++;
+
 			sleep(1);
 		}
+		exit(0);
 	}
 
 	else{
 		printf("Parent: pid = %d\n", getpid() );
 		printf("Parent: Child pid = %d\n", pid);
 		
-		sleep(5);
+		sleep(30);
 		
 		printf("Parent : exit\n");
 		
