@@ -1,2 +1,2 @@
 # C-Study
-HUFS's  Computer Organization and Design &amp; System Programming Lectures
+HUFS's  Computer Architeture &amp; System Programming Lectures
