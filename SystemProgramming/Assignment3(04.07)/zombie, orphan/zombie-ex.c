@@ -28,7 +28,7 @@ int main(void){
 
 			sleep(1);
 		}
-		exit(0);
+		close(0);
 	}
 
 	else{
