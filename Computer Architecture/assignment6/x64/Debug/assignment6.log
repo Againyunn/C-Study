@@ -1,0 +1,5 @@
+﻿  assignment6.c
+C:\github\C-Study\Computer Architecture\assignment6\assignment6.c(46,24): warning C4047: '함수': 'const char *const '의 간접 참조 수준이 'char'과(와) 다릅니다.
+C:\github\C-Study\Computer Architecture\assignment6\assignment6.c(46,21): warning C4024: 'printf': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\github\C-Study\Computer Architecture\assignment6\assignment6.c(90): warning C4716: 'MEM': 값을 반환해야 합니다.
+  assignment6.vcxproj -> C:\github\C-Study\Computer Architecture\assignment6\x64\Debug\assignment6.exe
