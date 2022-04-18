@@ -203,7 +203,7 @@ int main(){
             //종료
             case 'q':
                 quit = TRUE;
-                break;
+                return 0;
 
             //기본값(불일치하는 명령어)
             default:

@@ -61,7 +61,7 @@ void *producer(void* v) {
 		insertItem(&theList, i);
 
 		//1초 간격으로 처리
-		sleep(1);
+		//sleep(1);
 		
 		//test
 		printf("producer :%d\n",i);
@@ -91,7 +91,7 @@ void* consumer(void* v) {
 		data = getItem(&theList);
 
 		//1초 간격으로 처리
-		sleep(1);
+		//sleep(1);
 		
 		//test
 		//printf("consumer :%d\n",i);
