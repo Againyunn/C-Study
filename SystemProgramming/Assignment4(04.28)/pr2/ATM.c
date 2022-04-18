@@ -118,10 +118,42 @@ int main(){
 
 
             //타 계좌로 송금
-            //case 't':
+            case 't':
+                //인출할 계좌 선택 후 인출금액만큼 차감
+                reclock(fd, record_no, sizeof(struct record), F_WRLCK);
+                pos = record_no * sizeof(struct record);
 
+                lseek(fd, pos, SEEK_SET);
 
+                n = read(fd, &current, sizeof(struct record));
+                display_record(&current);
 
+                printf("enter transfer amount\n");
+                scanf("%d", &amount);
+
+                current.balance -= amount;
+
+                lseek(fd, pos, SEEK_SET);
+                write(fd, &current, sizeof(struct record));
+
+                //송금할 계좌 선택 후 송금받은 금액만큼 추가
+                reclock(fd, record_no, sizeof(struct record), F_WRLCK);
+                pos = record_no * sizeof(struct record);
+
+                lseek(fd, pos, SEEK_SET);
+
+                n = read(fd, &current, sizeof(struct record));
+                display_record(&current);
+
+                printf("enter transfer amount\n");
+                scanf("%d", &amount);
+
+                current.balance += amount;
+
+                lseek(fd, pos, SEEK_SET);
+                write(fd, &current, sizeof(struct record));                
+                reclock(fd, record_no, sizeof(struct record), F_UNLCK);
+                break;
 
             //종료
             case 'q':
