@@ -20,7 +20,7 @@ void display_record(struct record *curr);
 
 int main(){
     struct record current;
-    int record_no;
+    int record_no, destination_record_no;
     int fd, pos, i, n;
     char yes;
     char operation;
@@ -30,7 +30,8 @@ int main(){
 
     fd = open("./account", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
     while(1){
-        printf("%d", &record_no);
+    	printf("enter account number (0-99):");
+	scanf("%d", &record_no);
         fgets(buffer, 100, stdin);
 
         //선택가능한 범위를 벗어난 경우
@@ -44,7 +45,7 @@ int main(){
         switch(operation){
             //계좌 생성
             case 'c': 
-                reclock(fd, record_no, size_of(struct record), F_WRLCK);
+                reclock(fd, record_no, sizeof(struct record), F_WRLCK);
                 pos = record_no * sizeof(struct record);
                 lseek(fd, pos, SEEK_SET);
 
@@ -119,6 +120,11 @@ int main(){
 
             //타 계좌로 송금
             case 't':
+            	
+		//find destination account
+	    	printf("enter destination account number (0-99):");
+		scanf("%d", &destination_record_no);
+            
                 //인출할 계좌 선택 후 인출금액만큼 차감
                 reclock(fd, record_no, sizeof(struct record), F_WRLCK);
                 pos = record_no * sizeof(struct record);
@@ -136,23 +142,23 @@ int main(){
                 lseek(fd, pos, SEEK_SET);
                 write(fd, &current, sizeof(struct record));
 
+
+
                 //송금할 계좌 선택 후 송금받은 금액만큼 추가
-                reclock(fd, record_no, sizeof(struct record), F_WRLCK);
-                pos = record_no * sizeof(struct record);
+                reclock(fd, destination_record_no, sizeof(struct record), F_WRLCK);
+                pos = destination_record_no * sizeof(struct record);
 
                 lseek(fd, pos, SEEK_SET);
 
                 n = read(fd, &current, sizeof(struct record));
                 display_record(&current);
 
-                printf("enter transfer amount\n");
-                scanf("%d", &amount);
-
                 current.balance += amount;
 
                 lseek(fd, pos, SEEK_SET);
-                write(fd, &current, sizeof(struct record));                
-                reclock(fd, record_no, sizeof(struct record), F_UNLCK);
+                write(fd, &current, sizeof(struct record));        
+                        
+                reclock(fd, destination_record_no, sizeof(struct record), F_UNLCK);
                 break;
 
             //종료
