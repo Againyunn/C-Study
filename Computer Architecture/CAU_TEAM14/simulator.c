@@ -66,6 +66,9 @@ int main(){
                 
                 //함수삽입
 
+                //바이너리 파일을 읽지 못한 경우에 대한 에러 처리
+
+
                 break;
         /*j 명령어*/
             case 'j':
@@ -118,8 +121,9 @@ int main(){
                 exit(1);
                 break;
 
+        /*정의되지 않은 명령어 오류처리: 명령어 1개짜리*/
             default:
-                printf("Error: 명령어를 다시 입력해주세요.\n");
+                printf("Error: 올바른 명령어를 입력해주세요.");
                 break;
             }
 
@@ -130,36 +134,38 @@ int main(){
 
         /*sr 명령어*/
             if(!strcmp(cmdArr[0], "sr")){
-                if(checkArgument3(lenCode, 2) == 1) //명령어 유효성검사
-                    break;
-                
-                //함수삽입
-
+                if(checkArgument3(lenCode, 2) == 1){ //명령어 유효성검사
+                    printf("\n\n");
+                    continue;
+                } 
+                else{
+                    //함수삽입
+                }
             }
 
         /*sm 명령어*/
             else if(!strcmp(cmdArr[0], "sm")){
-                if(checkArgument3(lenCode, 3) == 1) //명령어 유효성검사
-                    break;
-                
-                //함수삽입
-
+                if(checkArgument3(lenCode, 3) == 1){ //명령어 유효성검사
+                    printf("\n\n");
+                    continue;
+                }
+                else{
+                    //함수삽입
+                }
             }
-
+        /*정의되지 않은 명령어 오류처리: 명령어 2개짜리*/
             else{
-                printf("Error: 명령어를 다시 입력해주세요.\n");
+                printf("Error: 올바른 명령어를 입력해주세요.");
             }
 
         }
-
+    /*정의되지 않은 명령어 오류처리: 명령어 입력x인 경우 + 정의되지 않은 명령어인 경우*/
         else{
-            printf("Error: 명령어를 다시 입력해주세요.\n");
+            printf("Error: 올바른 명령어를 입력해주세요.");
         }
         
+        printf("\n\n");
     }
-
-
-
 }
 
 
@@ -178,8 +184,8 @@ void printNotice(){
     printf("---------------------------------------------------------------------------------------------\n");
 }
 
-//올바르지 않은 인자 확인 함수
-int checkArgument1(int lenCode, char type){
+/*올바르지 않은 인자 확인 함수*/
+int checkArgument1(int lenCode, char type){ //인자가 1개인 명령어들
     int result = 0;
 
     if(lenCode >= 2){
@@ -187,10 +193,6 @@ int checkArgument1(int lenCode, char type){
 
         switch (type)
         {
-        case 'j':
-            printf("\tex) j");
-            result = 1;
-            break;
 
         case 'g':
             printf("\tex) g");
@@ -215,76 +217,72 @@ int checkArgument1(int lenCode, char type){
     return result;
 }
 
-int checkArgument2(int lenCode, char type){
+int checkArgument2(int lenCode, char type){ //인자가 2개인 명령어들
     int result = 0;
 
-    if(lenCode >= 3){
-        printf("Error: 명령어의 형식을 지켜주세요.\n");
-        
-        switch (type)
-        {
-        case 'l':
-            printf("\tex) l 실행파일의경로와이름");
-            result = 1;
-            break;
-
-        case 'j':
-            printf("\tex) j 프로그램시작위치");
-            result = 1;
-            break;
-
-        default:
+    switch (type)
+    {
+    case 'l':
+        if(lenCode == 2){ //오류가 없는 정상적인 상태인 경우
             break;
         }
+        printf("Error: 명령어의 형식을 지켜주세요.\n");
+        printf("\tex) l 실행파일의경로와이름");
+        break;
+
+    case 'j':
+        if(lenCode == 2){ //오류가 없는 정상적인 상태인 경우
+            break;
+        }
+        printf("Error: 명령어의 형식을 지켜주세요.\n");
+        printf("\tex) j 프로그램시작위치");
+        result = 1;
+        break;
+
+    default:
+        break;
     }
+    
 
     return result;
 }
 
-int checkArgument3(int lenCode, int type){
+int checkArgument3(int lenCode, int type){ //인자가 3개인 명령어들
     int result = 0;
 
-    if(lenCode >= 4){
-        printf("Error: 명령어의 형식을 지켜주세요.\n");
-
-
-        switch (type)
-        {
-    /*m 명령어*/
-        case 1:
-            printf("\tex) m 시작주소 종료주소\n");
-            result = 1;
-            break;
-
-    /*sr 명령어*/
-        case 2:
-            printf("\tex) sr 레지스터번호 지정할값\n");
-            result = 1;
-            break;  
-
-    /*sm 명령어*/
-        case 3:
-            printf("\tex) sm 메모리주소 지정할값\n");
-            result = 1;
-            break;                  
-        default:
+    switch (type)
+    {
+/*m 명령어*/
+    case 1:
+        if(lenCode == 3){ //오류가 없는 정상적인 상태인 경우
             break;
         }
+        printf("Error: 명령어의 형식을 지켜주세요.\n");
+        printf("\tex) m 시작주소 종료주소");
+        result = 1;
+        break;
 
-        // if(!strcmp(type, "m")){
-        //     printf("\tex) m 시작주소 종료주소\n");
-        //     result = 1;
-        // }
+/*sr 명령어*/
+    case 2:
+        if(lenCode == 3){ //오류가 없는 정상적인 상태인 경우
+            break;
+        }
+        printf("Error: 명령어의 형식을 지켜주세요.\n");
+        printf("\tex) sr 레지스터번호 지정할값");
+        result = 1;
+        break;  
 
-        // else if(!strcmp(type, "sr")){
-        //     printf("\tex) sr 레지스터번호 지정할값\n");
-        //     result = 1;
-        // }
-
-        // else if(!strcmp(type, "sm")){
-        //     printf("\tex) sm 메모리주소 지정할값\n");
-        //     result = 1;
-        // }
+/*sm 명령어*/
+    case 3:
+        if(lenCode == 3){ //오류가 없는 정상적인 상태인 경우
+            break;
+        }
+        printf("Error: 명령어의 형식을 지켜주세요.\n");
+        printf("\tex) sm 메모리주소 지정할값");
+        result = 1;
+        break;                  
+    default:
+        break;
     }
 
     return result;
