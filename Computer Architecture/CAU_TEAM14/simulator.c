@@ -9,11 +9,47 @@ unsigned int PC, IR;
 FILE* pFile;
 
 
-/*메인에 사용될 함수 선언*/
+/*시뮬레이터에 사용될 함수 선언*/
 void printNotice();
 int checkArgument1(int lenCode, char type);
 int checkArgument2(int lenCode, char type);
 int checkArgument3(int lenCode, int type);
+
+/*로직에 사용할 함수 선언*/     
+void initializeRegister();//레지스터 초기화
+void setRegister(unsigned int regNum, unsigned int val);//원하는 레지스터 값을 변경할 수 있는 함수.
+void setMemory(char* offset, char* val);//원하는 값으로 해당 메모리에 접근하여 값을 변경하는 함수.
+void updatePC(unsigned int addr);//현재 pc값을 원하는 값으로 변경하는 함수이다.
+void loadInitTask();//바이너리 파일을 로드하고 메모리에 ?적재하는 작업을 담당하는 함수.
+void showRegister();//인터페이스 'r'실행시 반환되는 함수
+void startGoTask();//인터페이스 'g'실행시 반환되는 함수
+void startStepTask();//인터페이스 's'실행시 반환되는 함수   → debugging 함수 포함되어있음
+
+char* regArr[32] = { "$zero","$at","$v0","$v1","$a0","$a1","$a2","$a3",
+"$t0","$t1","$t2","$t3","$t4","$t5","$t6","$t7",
+"$s0","$s1","$s2","$s3","$s4","$s5","$s6","$s7",
+"$t8","$t9","$k0","$k1","$gp","$sp","$s8","$ra" };
+
+static unsigned char progMEM[0x100000], dataMEM[0x100000], stakMEM[0x100000];
+
+static unsigned int R[32], PC;
+
+void openBinaryFile(char* filePath);   // l 명령어 실행시 filePath를 받아서 바이너리 파일 여는 함수
+unsigned int To_BigEndian(unsigned int x);  // 빅엔디안 변경 함수 => hex값
+unsigned char getOp(int opc);  // opcode 확인 함수
+// binary to decimal 한 값을 int값으로 저장함
+unsigned char* getInstName(int opc, int fct, int* isImmediate);   // debugging 함수
+void instExecute(int opc, int fct, int* isImmediate);   // instruction 실행함수
+int MEM(unsigned int A, int V, int nRW, int S); // memory access함수
+// ALU
+int logicOperation(int X, int Y, int C);
+int addSubtract(int X, int Y, int C);
+int shiftOperation(int V, int Y, int C);
+int checkZero(int S);
+int checkSetLess(int X, int Y);
+int ALU(int X, int Y, int C, int* Z);   // R-format 명령어에서 ALU함수 필요
+
+
 
 int main(){
     //시뮬레이터 변수 설정
