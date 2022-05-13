@@ -1,0 +1,20 @@
+The human brain, which is made up of some 86 billion neurons connected in a neural network, can perform remarkable feats of computing. Yet it consumes just a dozen or so watts. How does it do it?
+
+IEEE Spectrum recently spoke with Jeffrey Shainline, a physicist at the National Institute of Standards and Technology in Boulder, Colo., whose work may shine some light on this question. Shainline is pursuing an approach to computing that can power advanced forms of artificial intelligence—so-called spiking neural networks, which more closely mimic the way the brain works compared with the kind of artificial neural networks that are widely deployed now. Today, the dominant paradigm uses software running on digital computers to create artificial neural networks that have multiple layers of neurons. These “deep” artificial neural networks have proved immensely successful, but they require enormous computing resources and energy to run. And those energy requirements are growing quickly: in particular, the calculations involved in training deep neural networks are becoming unsustainable.
+
+Researchers have long been tantalized by the prospect of creating artificial neural networks that more closely reflect what goes on in networks of biological neurons, where, as one neuron accepts signals from multiple other neurons, it may reach a threshold level of activation that causes it to “fire,” meaning that it produces an output signal spike that is sent to other neurons, perhaps inducing some of them to fire as well.
+
+A few companies have produced chips for implementing electronic spiking neural networks. Shainline’s research focuses on using superconducting optoelectronic elements in such networks. His work has recently advanced from investigating theoretical possibilities to performing hardware experiments. He tells Spectrum about these latest developments in his lab.
+
+I’ve heard for years about neuromorphic processing chips from IBM and elsewhere, but I don’t get a sense that they have gained traction in the practical world. Am I wrong?
+
+Jeffrey Shainline: Good question: Spiking neural networks—what are they good for?
+
+IBM’s True North chip from 2014 made a big splash because it was new and different and exciting. More recently, Intel has been doing great things with its Loihi chip. Intel now has its second generation of that. But whether these chips will solve real problems remains a big question.
+
+We know that biological brains can do things that are unmatched by digital computers. Yet these spiking neuromorphic chips don’t immediately knock our socks off. Why not? I don’t think that’s an easy question to answer.
+
+One thing that I’ll point out is that one of these chips doesn’t have 10 billion neurons (roughly the number of neurons in a person’s brain). Even a fruit-fly brain has about 150,000 neurons. Intel’s most recent Loihi chip doesn’t even have that.
+
+Knowing that they are struggling with what they’re going to do with this chip, the folks at Intel have done something clever: They’re giving academics and startups cheap access to their chip—for free in a lot of cases. They’re crowdsourcing creativity in hopes that somebody will find a killer app.
+

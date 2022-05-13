@@ -9,7 +9,7 @@
 #include <semaphore.h>
 #include <signal.h>
 
-void sg_catch(int sig_no){
+void sig_catch(int sig_no){
     printf("signal catch\n");
 }
 
@@ -18,7 +18,7 @@ int main(){
     int status;
 
     //signal을 받았을 때 처리할 함수 지정(SIGUSR1을 받으면 sig_catch가 실행)
-    signal(SIGUSR1, sg_catch);
+    signal(SIGUSR1, sig_catch);
 
     if((pid = fork()) == 0){
         pause();//정지 → SIGUSR1 신호 발생
