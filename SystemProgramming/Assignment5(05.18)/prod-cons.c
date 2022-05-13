@@ -83,8 +83,8 @@ int main(int argc, char *argv[]){
     pthread_create(&thread2, NULL, Consumer, NULL);//소비자(-1 작업)
 
     //thread 2개 실행
-    pthread_join(pthread1, NULL);
-    pthread_join(pthread2, NULL);
+    pthread_join(thread1, NULL);
+    pthread_join(thread2, NULL);
 
     //현재 공유자원의 값 출력
     printf("%d\n", cnt);

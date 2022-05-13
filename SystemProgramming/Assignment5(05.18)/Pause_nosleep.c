@@ -7,8 +7,9 @@
 #include <memory.h>
 #include <fcntl.h>
 #include <semaphore.h>
+#include <signal.h>
 
-void sg_catch(int sig_no){
+void sig_catch(int sig_no){
     printf("signal catch\n");
 }
 
