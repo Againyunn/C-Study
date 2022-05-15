@@ -102,7 +102,18 @@ int main(){
                 
                 //함수삽입
 
-                //바이너리 파일을 읽지 못한 경우에 대한 에러 처리
+                // FILE* testFile = fopen( filePath, "rb");
+        // if (testFile == NULL) {
+        // 	printf("Cannot open file\n");
+        // 	return 1;
+        // }
+            //파일 열어서 FD 저장
+            err = fopen_s(&pFile, fileName, "rb");
+            if (err) {
+                printf(" '%s' 파일을 열 수 없습니다.\n", fileName);
+                pFile = NULL;
+                continue;
+            }
 
 
                 break;
