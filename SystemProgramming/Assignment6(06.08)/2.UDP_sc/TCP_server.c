@@ -1,7 +1,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
-#include <argparse/inet.h>
+#include <arpa/inet.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,14 +35,14 @@ int main(int argc, char *argv[]){
 
     while(1){
         cliaddrsize = sizeof(cliaddr);
-        if((nsd = accept(ad, (struct sockaddr*) &cliaddr, &cliaddrsize)) < 0){
+        if((nsd = accept(sd, (struct sockaddr*) &cliaddr, &cliaddrsize)) < 0){
             fprintf(stderr, "can't accept connection.\n");
             exit(1);
         }
 
 
         //child thread생성
-        if(p(pid = fork()) < 0){
+        if((pid = fork()) < 0){
             fprintf(stderr, "can't fork process.\n");
             exit(1);
         }
@@ -51,6 +51,8 @@ int main(int argc, char *argv[]){
             close(sd);
             while(1){
                 bytes = recv(nsd, data, MAX, 0);
+                
+                fputs(data, stdout);
 
                 if(bytes == 0)
                     break;

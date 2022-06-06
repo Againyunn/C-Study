@@ -1,7 +1,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
-#include <argparse/inet.h>
+#include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -50,6 +50,7 @@ int main(int argc, char *argv[]){
         }
 
         rcvdata[recv_bytes] = 0;
+        printf("[server's backlog]:");
         fputs(rcvdata, stdout);
     }
 

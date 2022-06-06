@@ -1,7 +1,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
-#include <argparse/inet.h>
+#include <arpa/inet.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,7 +16,7 @@ int main(int argc, char *argv[]){
     struct sockaddr_in cliaddr, servaddr;
     char data[MAX];
 
-    if((sd = socket(AF_INET, SOCK_STREAM, 0)) < 0){
+    if((sd = socket(AF_INET, SOCK_DGRAM, 0)) < 0){
         fprintf(stderr, "can't open socket.\n");
         exit(1);
     }
@@ -34,58 +34,32 @@ int main(int argc, char *argv[]){
     // listen(sd, BACKLOG);
 
     while(1){
-        // cliaddrsize = sizeof(cliaddr);
+        cliaddrsize = sizeof(cliaddr);
+	while(1){
+		bytes = recvfrom(sd, data, MAX, 0, (struct sockaddr*) &cliaddr, &cliaddrsize);
+		
+		    if(bytes == 0){
+		        break;
+		    }
+		    
+		    else if(bytes < 0){
+		        fprintf(stderr, "can't receive data.\n");
+		        break;
+		        // exit(1);
+		    }
+		
+  		if(bytes > 0){
+  		    //fputs(data, stdout);
 
-        if((bytes = recvfrom(sd, data, MAX, 0, (struct sockaddr*) &cliaddr, sizeof(cliaddr))) < 0){
-            if(bytes == 0){
-                continue;
-            }
-            else if(bytes < 0){
-                fprintf(stderr, "can't receive data.\n");
-                exit(1);
-            }
+		    if(sendto(sd, data, bytes, 0, (struct sockaddr*) &cliaddr, sizeof(cliaddr)) != bytes){
+		        fprintf(stderr, "can't send data.\n");
+		        break;		        
+		        //exit(1);
+		    }
 
-            if(sendto(sd, data, bytes, 0, (struct sockaddr*) &cliaddr, sizeof(cliaddr)) != bytes){
-                fprintf(stderr, "can't send data.\n");
-                exit(1);
-            }
+		}
+		}
 
-        }
-
-
-        // if((nsd = accept(ad, (struct sockaddr*) &cliaddr, &cliaddrsize)) < 0){
-        //     fprintf(stderr, "can't accept connection.\n");
-        //     exit(1);
-        // }
-
-
-        // //child thread생성
-        // if(p(pid = fork()) < 0){
-        //     fprintf(stderr, "can't fork process.\n");
-        //     exit(1);
-        // }
-
-        // if(pid == 0){
-        //     close(sd);
-        //     while(1){
-        //         bytes = recv(nsd, data, MAX, 0);
-
-        //         if(bytes == 0)
-        //             break;
-        //         else if(bytes < 0){
-        //             fprintf(stderr, "can't receive data.\n");
-        //             exit(1);
-        //         }
-
-        //         if(send(nsd, data, bytes, 0) != bytes){
-        //             fprintf(stderr, "can't send data.\n");
-        //             exit(1);
-        //         }
-        //     }
-        //     return 0;
-        // }
-
-        // else
-        //     close(nsd);
+	}
     }
-}
+
