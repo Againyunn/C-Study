@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
             exit(0);
         }
 
-        if(!strcmp(buffer_w, "quit", 4) == 0){
+        if(!strcmp(buffer_w, "quit")){
             printf("Quit chatting\n");
             exit(0);
         }
