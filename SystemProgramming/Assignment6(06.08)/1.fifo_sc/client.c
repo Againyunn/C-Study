@@ -60,7 +60,7 @@ void client(void *v){
             exit(0);
         }
 
-        if(!strcmp(buffer_w, "quit", 4) == 0){
+        if(!strcmp(buffer_w, "quit")){
             printf("Quit chatting\n");
             exit(0);
         }
