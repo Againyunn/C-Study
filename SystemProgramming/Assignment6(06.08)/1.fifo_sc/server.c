@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <pthread.h>
+#include <stdlib.h>
 
 void *server(void*);
 
@@ -20,6 +21,9 @@ pthread_cond_t buffer_has_data2 = PTHREAD_COND_INITIALIZER;
 
 //main함수
 int main(int argc, char *argv[]){
+    int fd1, fd2;
+    char buffer_w[SIZE], buffer_r[SIZE];
+    int  fd1_size, fd2_size;
 
     if(mkfifo(FIFO1, 0666) == -1){
         perror("mkfifo failed");
@@ -36,6 +40,56 @@ int main(int argc, char *argv[]){
     pthread_create (&threads, NULL, server, NULL);
 
     pthread_join(threads, NULL);
+    
+    while(1){
+    	//FIFO2생성: server의 메시지를 client에서 전송
+        pthread_mutex_lock(&mutex2);
+        
+        //test
+	printf("get mutex2 lock\n");
+	
+        if((fd2 = open(FIFO2, O_WRONLY)) == -1){
+            perror("open failed");
+            exit(1);
+        }
+
+        //FIFO2에 server의 값 입력
+        fd2_size = read(fd2, buffer_w, SIZE);
+        
+        if(fd2_size == 0){
+        	close(fd2);
+        	sleep(2);
+        	continue;
+        }
+        
+        //test
+	printf("read mutex1 lock %d\n", fd2_size);
+        
+	/* if((fd2_size = read(fd2, buffer_w, SIZE)) == -1){
+            perror("read failed");
+            exit(1);
+        }*/
+        if(fd2_size != 0){
+            pthread_cond_wait(&buffer_has_space2, &mutex2);
+        }
+
+        printf("[SERVER]");
+        fgets(buffer_w, SIZE, stdin);
+        if(write(fd2, buffer_w, SIZE) == -1){
+            perror("write failed");
+            exit(1);
+        }
+
+        if(!strcmp(buffer_w, "quit")){
+            printf("Quit chatting\n");
+            exit(0);
+        }
+        
+        close(fd2);
+        pthread_cond_signal(&buffer_has_data2);
+        pthread_mutex_unlock(&mutex2);
+    
+    }
     return 0;
 
 }
@@ -49,6 +103,9 @@ void *server(void *v){
     while(1){
         //FIFO1생성: client의 전송 메시지 읽기
         pthread_mutex_lock(&mutex1);
+        
+        //test
+	printf("get mutex1 lock\n");
 
         if((fd1 = open(FIFO1, O_RDWR)) == -1){
             perror("open failed");
@@ -56,6 +113,10 @@ void *server(void *v){
         }
         //FIFO1의 client의 값 받아오기
         fd1_size = read(fd1, buffer_r, SIZE);
+        
+        //test
+	printf("read mutex1 lock %d\n", fd1_size);
+	
         /*
         if((fd1_size = read(fd1, buffer_r, SIZE)) == -1){
             perror("read failed");
@@ -81,37 +142,6 @@ void *server(void *v){
         pthread_cond_signal(&buffer_has_space1);
         pthread_mutex_unlock(&mutex1);
 
-        //FIFO2생성: server의 메시지를 client에서 전송
-        pthread_mutex_lock(&mutex2);
-        if((fd2 = open(FIFO2, O_WRONLY)) == -1){
-            perror("open failed");
-            exit(1);
-        }
-
-        //FIFO2에 server의 값 입력
-        fd2_size = read(fd2, buffer_w, SIZE);
-	/* if((fd2_size = read(fd2, buffer_w, SIZE)) == -1){
-            perror("read failed");
-            exit(1);
-        }*/
-        if(fd2_size != 0){
-            pthread_cond_wait(&buffer_has_space2, &mutex2);
-        }
-
-        printf("[SERVER]");
-        fgets(buffer_w, SIZE, stdin);
-        if(write(fd2, buffer_w, SIZE) == -1){
-            perror("write failed");
-            exit(1);
-        }
-
-        if(!strcmp(buffer_w, "quit")){
-            printf("Quit chatting\n");
-            exit(0);
-        }
-        
-        close(fd2);
-        pthread_cond_signal(&buffer_has_data2);
-        pthread_mutex_unlock(&mutex2);
+      
     }
 }
